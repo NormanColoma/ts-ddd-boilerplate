@@ -19,6 +19,8 @@ class ErrorHandler {
     } else if (err instanceof ResourceNotFoundError) {
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(ResourceNotFoundResponse(err));
     }
+
+    console.log(err.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json(InternalServerErrorResponse);
   }

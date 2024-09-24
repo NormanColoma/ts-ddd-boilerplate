@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
+import { Response } from 'express';
 
-interface ApiResponse {
+interface ApiResponse extends Response {
   data: object;
 }
 

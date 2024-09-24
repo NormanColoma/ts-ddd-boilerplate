@@ -5,9 +5,11 @@ import PlaylistRepository from '../../domain/playlist/playlist-repository';
 import Playlist from '../../domain/playlist/playlist';
 
 class GetPlaylists implements ApplicationService {
-  constructor(
-    private readonly playlistRepository: PlaylistRepository,
-  ) {}
+  private playlistRepository: PlaylistRepository;
+
+  constructor({ playlistRepository }: { playlistRepository: PlaylistRepository }) {
+    this.playlistRepository = playlistRepository;
+  }
 
   async execute(command: GetPlaylistCommand): Promise<GetPlaylistResponse> {
     const playlists: Playlist[] = await this.playlistRepository.find(

@@ -1,20 +1,27 @@
 import { Router, Response, Request } from 'express';
 import BaseController from '../../../shared/infrastructure/rest/http/base-controller';
-import ApplicationError from '../../../shared/domain/exception/application-error';
-import ResourceNotFoundError from '../../../shared/domain/exception/resource-not-found-error';
+import GetPlaylists from '../../../application/get_playlists/get-playlists';
+import GetPlaylistCommand from '../../../application/get_playlists/get-playlist-command';
 
 class PlaylistController implements BaseController {
-  constructor(private readonly router: Router) {
+  private readonly router: Router;
+  private readonly getPlaylists: GetPlaylists;
+
+  constructor({ router, getPlaylists } : { router: Router, getPlaylists: GetPlaylists }) {
     this.router = router;
+    this.getPlaylists = getPlaylists;
   }
 
-  private get(request: Request, response: Response): void {
-    throw new ApplicationError('Method not implemented.');
-    response.status(200).send('Hello World');
+  private async get(request: Request, response: Response): Promise<Response> {
+    // throw new ApplicationError('Method not implemented.');
+    const command = new GetPlaylistCommand({ genre: 'rap' });
+    const result = await this.getPlaylists.execute(command);
+
+    return response.status(200).json({ data: result.toJson() });
   }
 
   public routes(): Router {
-    this.router.get('/', this.get);
+    this.router.get('/', this.get.bind(this));
     return this.router;
   }
 }

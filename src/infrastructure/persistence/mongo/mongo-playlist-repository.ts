@@ -15,13 +15,15 @@ const playlistsDocuments: PlaylistDocument[] = [
 ];
 
 class MongoPlaylistRepository implements PlaylistRepository {
-  constructor(
-    private readonly parser: MongoPlaylistParser,
-  ) {}
+  private readonly playlistParser: MongoPlaylistParser;
+
+  constructor({ playlistParser } : { playlistParser: MongoPlaylistParser }) {
+    this.playlistParser = playlistParser;
+  }
 
   async find(genre: string): Promise<Playlist[]> {
     const playlists: Playlist[] = playlistsDocuments.map((it) =>
-      this.parser.to_domain_object(it),
+      this.playlistParser.to_domain_object(it),
     );
     return playlists.filter((it) => it.genre === genre);
   }

@@ -1,0 +1,16 @@
+services:
+  api:
+    build:
+        context: .
+        dockerfile: dev.Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: run
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules/
+    networks:
+      - ts-ddd
+networks:
+  ts-ddd:

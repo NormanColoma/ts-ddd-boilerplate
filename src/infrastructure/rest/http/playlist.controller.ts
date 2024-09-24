@@ -1,5 +1,7 @@
 import { Router, Response, Request } from 'express';
 import BaseController from '../../../shared/infrastructure/rest/http/base-controller';
+import ApplicationError from '../../../shared/domain/exception/application-error';
+import ResourceNotFoundError from '../../../shared/domain/exception/resource-not-found-error';
 
 class PlaylistController implements BaseController {
   constructor(private readonly router: Router) {
@@ -7,6 +9,7 @@ class PlaylistController implements BaseController {
   }
 
   private get(request: Request, response: Response): void {
+    throw new ApplicationError('Method not implemented.');
     response.status(200).send('Hello World');
   }
 

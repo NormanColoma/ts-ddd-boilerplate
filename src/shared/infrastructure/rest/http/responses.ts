@@ -1,35 +1,35 @@
-import { StatusCodes } from 'http-status-codes';
 import { Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 type ApiResponse = Response<{
-  data: object;
+  data: object
 }>;
 
-interface ErrorResponse {
+type ErrorResponse = Response<{
   message: string;
   error?: string;
   statusCode?: number;
-}
+}>;
 
-const InternalServerErrorResponse: ErrorResponse = {
+const InternalServerErrorResponse = {
   message: 'Internal server error',
   error: 'Internal server error',
   statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 };
 
-const UnprocessableEntityResponse = (err: Error): ErrorResponse => {
-  return {
-    message: err.message,
-    error: err.constructor.name,
-    statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
-  };
-};
-
-const ResourceNotFoundResponse = (err: Error): ErrorResponse => {
+const ResourceNotFoundResponse = (err: Error) => {
   return {
     message: 'Resource not found',
     error: err.constructor.name,
     statusCode: StatusCodes.NOT_FOUND,
+  };
+};
+
+const UnprocessableEntityResponse = (err: Error) => {
+  return {
+    message: err.message,
+    error: err.constructor.name,
+    statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
   };
 };
 

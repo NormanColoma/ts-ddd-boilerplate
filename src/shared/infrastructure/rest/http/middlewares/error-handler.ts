@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import {
+  ErrorResponse,
   InternalServerErrorResponse,
   ResourceNotFoundResponse,
   UnprocessableEntityResponse,
@@ -9,7 +10,7 @@ import ApplicationError from '../../../../domain/exception/application-error';
 import ResourceNotFoundError from '../../../../domain/exception/resource-not-found-error';
 
 class ErrorHandler {
-  public handle(err: Error, req: Request, res: Response, next: NextFunction): Response {
+  public handle(err: Error, req: Request, res: ErrorResponse, next: NextFunction): ErrorResponse {
     if (res.headersSent) {
       next(err);
     }

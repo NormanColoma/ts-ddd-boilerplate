@@ -1,10 +1,10 @@
-import Playlist from 'src/domain/playlist/playlist';
-import PlaylistRepository from '../../../domain/playlist/playlist-repository';
-import { Inject } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
-import MongoPlaylistParser from './mongo-parser';
 
-const playlistsDocuments: object[] = [
+import PlaylistRepository from '../../../domain/playlist/playlist-repository';
+import { v4 as uuidv4 } from 'uuid';
+import { PlaylistDocument, MongoPlaylistParser } from './mongo-parser';
+import Playlist from '../../../domain/playlist/playlist';
+
+const playlistsDocuments: PlaylistDocument[] = [
   {
     _id: uuidv4(),
     name: 'Rock Classics',
@@ -16,7 +16,6 @@ const playlistsDocuments: object[] = [
 
 class MongoPlaylistRepository implements PlaylistRepository {
   constructor(
-    @Inject('MongoPlaylistParser')
     private readonly parser: MongoPlaylistParser,
   ) {}
 

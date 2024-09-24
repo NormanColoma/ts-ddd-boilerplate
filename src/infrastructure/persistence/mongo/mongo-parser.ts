@@ -31,4 +31,4 @@ class MongoPlaylistParser implements DatabaseParser {
   }
 }
 
-export default MongoPlaylistParser;
+export { MongoPlaylistParser, PlaylistDocument };

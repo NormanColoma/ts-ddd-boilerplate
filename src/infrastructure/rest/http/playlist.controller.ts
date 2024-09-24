@@ -13,7 +13,7 @@ class PlaylistController implements BaseController {
     this.getPlaylists = getPlaylists;
   }
 
-  private async get(request: Request, response: ApiResponse): Promise<ApiResponse> {
+  private async getPlaylist(request: Request, response: ApiResponse): Promise<ApiResponse> {
     const command = new GetPlaylistCommand({ genre: 'rap' });
     const result = await this.getPlaylists.execute(command);
 
@@ -21,7 +21,7 @@ class PlaylistController implements BaseController {
   }
 
   public routes(): Router {
-    this.router.get('/', this.get.bind(this));
+    this.router.get('/', this.getPlaylist.bind(this));
     return this.router;
   }
 }

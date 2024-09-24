@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { Response } from 'express';
 
-interface ApiResponse extends Response {
+type ApiResponse = Response<{
   data: object;
-}
+}>;
 
 interface ErrorResponse {
   message: string;

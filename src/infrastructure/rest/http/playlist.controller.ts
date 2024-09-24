@@ -1,7 +1,8 @@
-import { Router, Response, Request } from 'express';
+import { Router, Request } from 'express';
 import BaseController from '../../../shared/infrastructure/rest/http/base-controller';
 import GetPlaylists from '../../../application/get_playlists/get-playlists';
 import GetPlaylistCommand from '../../../application/get_playlists/get-playlist-command';
+import { ApiResponse } from '../../../shared/infrastructure/rest/http/responses';
 
 class PlaylistController implements BaseController {
   private readonly router: Router;
@@ -12,8 +13,7 @@ class PlaylistController implements BaseController {
     this.getPlaylists = getPlaylists;
   }
 
-  private async get(request: Request, response: Response): Promise<Response> {
-    // throw new ApplicationError('Method not implemented.');
+  private async get(request: Request, response: ApiResponse): Promise<ApiResponse> {
     const command = new GetPlaylistCommand({ genre: 'rap' });
     const result = await this.getPlaylists.execute(command);
 

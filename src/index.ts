@@ -1,6 +1,6 @@
 import express from 'express';
+import 'express-async-errors';
 import dotenv from 'dotenv';
-import ErrorHandler from './shared/infrastructure/rest/http/middlewares/error-handler';
 import container from './container';
 
 // configures dotenv to work in your application
@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT;
 app.use('/', container.resolve('playlistController').routes());
-app.use(new ErrorHandler().handle);
+app.use(container.resolve('errorHandler').handle);
 
 app.listen(PORT, () => {
   console.log('Server running at PORT: ', PORT);

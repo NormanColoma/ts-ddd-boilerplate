@@ -8,9 +8,11 @@ services:
     environment:
       NODE_ENV: run
     volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules/
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
     networks:
       - ts-ddd
 networks:
   ts-ddd:
+volumes:
+  node_modules:

@@ -21,7 +21,7 @@ const errorHandler = ({ logger } : { logger: Logger }) => {
     if (err instanceof ApplicationError) {
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(UnprocessableEntityResponse(err));
     } else if (err instanceof ResourceNotFoundError) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(ResourceNotFoundResponse(err));
+      return res.status(StatusCodes.NOT_FOUND).json(ResourceNotFoundResponse(err));
     }
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json(InternalServerErrorResponse);

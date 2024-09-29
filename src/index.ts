@@ -7,10 +7,11 @@ import container from './container';
 dotenv.config();
 const app = express();
 
-const PORT = process.env.PORT;
+app.use(express.json());
 app.use('/', container.resolve('playlistController').routes());
-app.use(container.resolve('errorHandler').handle);
+app.use(container.resolve('errorHandler'));
 
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log('Server running at PORT: ', PORT);
 });

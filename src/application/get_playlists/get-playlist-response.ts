@@ -7,7 +7,7 @@ class GetPlaylistResponse implements ApplicationResponse {
   public static create(playlists: Playlist[]): GetPlaylistResponse {
     return new GetPlaylistResponse(playlists);
   }
-  toJson(): object[] {
+  toPrimitives(): object[] {
     return this.playlist.map((playlist) => {
       return {
         id: playlist.id,

@@ -1,27 +1,43 @@
-import { Router, Request } from 'express';
+import { Router, Request, Response } from 'express';
 import BaseController from '../../../shared/infrastructure/rest/http/base-controller';
 import GetPlaylists from '../../../application/get_playlists/get-playlists';
-import GetPlaylistCommand from '../../../application/get_playlists/get-playlist-command';
 import { ApiResponse } from '../../../shared/infrastructure/rest/http/responses';
+import CreatePlaylist from '../../../application/create_playlist/create-playlist';
+import { StatusCodes } from 'http-status-codes';
+import ApiRequest from '../../../shared/infrastructure/rest/http/requests';
+import CreatePlaylistRequest from './request/create-playlist-request';
 
 class PlaylistController implements BaseController {
   private readonly router: Router;
   private readonly getPlaylists: GetPlaylists;
+  private readonly createPlaylist: CreatePlaylist;
 
-  constructor({ router, getPlaylists } : { router: Router, getPlaylists: GetPlaylists }) {
+  constructor({ router, getPlaylists, createPlaylist }
+  : { router: Router, getPlaylists: GetPlaylists, createPlaylist: CreatePlaylist }) {
     this.router = router;
     this.getPlaylists = getPlaylists;
+    this.createPlaylist = createPlaylist;
   }
 
-  private async getPlaylist(request: Request, response: ApiResponse): Promise<ApiResponse> {
-    const command = new GetPlaylistCommand({ genre: 'rap' });
+  private async _getPlaylist(request: Request, response: ApiResponse): Promise<ApiResponse> {
+    const command = { genre: 'rap' };
     const result = await this.getPlaylists.execute(command);
 
-    return response.status(200).json({ data: result.toJson() });
+    return response.status(StatusCodes.OK).json({ data: result.toPrimitives() });
+  }
+
+  private async _createPlaylist(request: ApiRequest<CreatePlaylistRequest>, response: Response): Promise<Response> {
+    const { genre, name } = request.body;
+
+    const command = { genre, name };
+    await this.createPlaylist.execute(command);
+
+    return response.status(StatusCodes.CREATED).send();
   }
 
   public routes(): Router {
-    this.router.get('/', this.getPlaylist.bind(this));
+    this.router.get('/', this._getPlaylist.bind(this));
+    this.router.post('/', this._createPlaylist.bind(this));
     return this.router;
   }
 }

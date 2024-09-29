@@ -1,5 +1,5 @@
 interface ApplicationResponse {
-  toJson(): object;
+  toPrimitives(): object;
 }
 
 export default ApplicationResponse;

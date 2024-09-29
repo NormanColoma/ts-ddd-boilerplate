@@ -14,11 +14,16 @@ const playlistsDocuments: PlaylistDocument[] = [
   },
 ];
 
+// This is a fake implementation of a MongoDB repository
 class MongoPlaylistRepository implements PlaylistRepository {
   private readonly playlistParser: MongoPlaylistParser;
 
   constructor({ playlistParser } : { playlistParser: MongoPlaylistParser }) {
     this.playlistParser = playlistParser;
+  }
+
+  async save(playlist: Playlist): Promise<void> {
+    playlistsDocuments.push(this.playlistParser.to_database_object(playlist));
   }
 
   async find(genre: string): Promise<Playlist[]> {

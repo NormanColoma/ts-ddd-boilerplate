@@ -5,7 +5,9 @@ import { MongoPlaylistParser } from './infrastructure/persistence/mongo/mongo-pa
 import PlaylistController from './infrastructure/rest/http/playlist.controller';
 import express from 'express';
 import { asClass, asFunction, createContainer, InjectionMode } from 'awilix';
-import ErrorHandler from './shared/infrastructure/rest/http/middlewares/error-handler';
+import CreatePlaylist from './application/create_playlist/create-playlist';
+import WinstonLogger from './shared/infrastructure/logging/winston-logger';
+import errorHandler from './shared/infrastructure/rest/http/middlewares/error-handler';
 
 const container = createContainer({
   injectionMode: InjectionMode.PROXY,
@@ -13,11 +15,13 @@ const container = createContainer({
 
 container.register({
   getPlaylists: asClass(GetPlaylists).singleton(),
+  createPlaylist: asClass(CreatePlaylist).singleton(),
   playlistRepository: asClass(MongoPlaylistRepository).singleton(),
   playlistParser: asClass(MongoPlaylistParser).singleton(),
   playlistController: asClass(PlaylistController).singleton(),
   router: asFunction(() => express.Router()).singleton(),
-  errorHandler: asClass(ErrorHandler).singleton(),
+  logger: asClass(WinstonLogger).singleton(),
+  errorHandler: asFunction(errorHandler).singleton(),
 });
 
 export default container;
